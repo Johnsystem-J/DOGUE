@@ -1,0 +1,97 @@
+// File: prisma/schema.prisma (เวอร์ชันแก้ไขแล้ว)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// --- โมเดลหลักของเรา ---
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  password      String? // <-- เพิ่มบรรทัดนี้
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  pets          Pet[]
+
+  // ความสัมพันธ์กับ Auth.js (เพิ่มส่วนนี้เข้ามา)
+  accounts      Account[]
+  sessions      Session[]
+}
+
+model Pet {
+  id        String    @id @default(cuid())
+  name      String
+  petType   String
+  breed     String?
+  birthDate DateTime?
+  notes     String?
+
+  ownerId   String
+  owner     User      @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+
+// --- โมเดลสำหรับ Auth.js Adapter (ลบ @db.Text ออก) ---
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Article {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  content   String
+  imageUrl  String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ServiceLocation {
+  id          String  @id @default(cuid())
+  name        String
+  serviceType String  // "HOSPITAL", "CLINIC", "HOTEL"
+  address     String
+  phone       String?
+}
+
