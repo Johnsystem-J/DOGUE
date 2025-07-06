@@ -1,7 +1,8 @@
 // File: src/app/register/page.tsx
 import { registerUser } from './actions';
-import { signIn } from "@/auth"
+import { signIn } from "@/auth";
 import Link from 'next/link';
+import Image from "next/image"; // 1. Import Image
 
 // ใช้ SocialButton เดียวกันกับหน้า Login
 function SocialButton({ provider, label, logo }: { provider: string, label: string, logo: string }) {
@@ -11,7 +12,8 @@ function SocialButton({ provider, label, logo }: { provider: string, label: stri
             await signIn(provider, { redirectTo: "/dashboard/my-pets" })
         }}>
             <button type="submit" className="w-full py-2.5 px-4 border rounded-lg flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors">
-                <img src={logo} alt={`${label} logo`} className="w-5 h-5" />
+                {/* 2. เปลี่ยนเป็น Image component */}
+                <Image src={logo} alt={`${label} logo`} width={20} height={20} />
                 <span className="text-sm font-medium text-gray-700">{label}</span>
             </button>
         </form>

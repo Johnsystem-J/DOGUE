@@ -48,7 +48,7 @@ export default async function MyPetsPage() {
         <h1 className="text-2xl font-bold mb-4">My Pets ({pets.length})</h1>
         <div className="space-y-4">
           {pets.length === 0 ? (
-            <p className="text-gray-500">You haven't added any pets yet.</p>
+            <p className="text-gray-500">You haven&apos;t added any pets yet.</p>
           ) : (
             pets.map((pet: Pet) => (
               <div key={pet.id} className="bg-white p-5 rounded-xl shadow-sm flex items-center justify-between">

@@ -16,7 +16,7 @@ export default async function BlogPage() {
 
     return (
         <div>
-            <h1 className="text-3xl font-bold mb-6">DOGUE's Blog</h1>
+            <h1 className="text-3xl font-bold mb-6">DOGUE&apos;s Blog</h1>
             <div className="space-y-6">
                 {articles.map((article) => (
                     <Link href={`/blog/${article.slug}`} key={article.id} className="block bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow">
