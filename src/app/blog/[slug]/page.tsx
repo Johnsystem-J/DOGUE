@@ -2,7 +2,11 @@
 import { db } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-// เราจะไม่ใช้ generateStaticParams ในตอนนี้เพื่อลดความซับซ้อน
+// 1. สร้าง Type ที่สมบูรณ์ตามมาตรฐาน Next.js
+type PageProps = {
+    params: { slug: string };
+    searchParams?: { [key: string]: string | string[] | undefined };
+};
 
 async function getArticle(slug: string) {
     return db.article.findUnique({
@@ -10,8 +14,8 @@ async function getArticle(slug: string) {
     });
 }
 
-// --- แก้ไข Type ตรงนี้เป็น any ---
-export default async function ArticlePage({ params }: any) {
+// 2. ใช้ PageProps ที่เราสร้างขึ้น
+export default async function ArticlePage({ params }: PageProps) {
     const article = await getArticle(params.slug);
 
     if (!article) {
