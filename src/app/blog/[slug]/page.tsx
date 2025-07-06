@@ -1,18 +1,18 @@
 // File: src/app/blog/[slug]/page.tsx
-import { db as prisma } from "@/lib/prisma";
+import { db } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 
-type Props = {
-    params: { slug: string };
-};
+// ลบ type Props เก่าออกไป
 
 async function getArticle(slug: string) {
-    return prisma.article.findUnique({
+    // แก้ไขการเรียกใช้เป็น db
+    return db.article.findUnique({
         where: { slug: slug },
     });
 }
 
-export default async function ArticlePage({ params }: Props) {
+// กำหนด Type ของ params โดยตรงในฟังก์ชัน
+export default async function ArticlePage({ params }: { params: { slug: string } }) {
     const article = await getArticle(params.slug);
 
     if (!article) {
@@ -20,9 +20,10 @@ export default async function ArticlePage({ params }: Props) {
     }
 
     return (
-        <article className="prose lg:prose-xl max-w-none">
-            <h1>{article.title}</h1>
-            <p>{article.content}</p>
+        <article className="prose lg:prose-xl max-w-none mx-auto py-8">
+            <h1 className="mb-4">{article.title}</h1>
+            {/* ใช้ whitespace-pre-wrap เพื่อให้การขึ้นบรรทัดใหม่แสดงผลถูกต้อง */}
+            <p className="whitespace-pre-wrap">{article.content}</p>
         </article>
     );
 }
