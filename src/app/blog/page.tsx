@@ -1,5 +1,7 @@
 // File: src/app/blog/page.tsx
-import { db } from "@/lib/prisma"; // แก้ไขแล้ว
+// Test edit to force git update
+import { db } from "@/lib/prisma";
+// ... a-p-a-i-k-o-d-e ...
 import Link from "next/link";
 
 async function getArticles() {
