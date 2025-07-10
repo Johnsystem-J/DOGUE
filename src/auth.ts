@@ -64,6 +64,7 @@ export const authOptions: NextAuthConfig = {
             return token;
         },
     },
+    debug: true,
 }
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authOptions)
